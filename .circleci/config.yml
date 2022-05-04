@@ -35,7 +35,8 @@ jobs:
     parallelism: 3
     # here we set TWO docker images.
     docker:
-      - image: cimg/ruby:2.7-node # this is our primary docker image, where step commands run.
+    
+      - image: cimg/ruby:2.7.4-node # this is our primary docker image, where step commands run.
         auth:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
@@ -58,7 +59,9 @@ jobs:
     # A series of steps to run, some are similar to those in "build".
     steps:
       - checkout
-      - ruby/install-deps
+      - ruby/install:
+          version: '2.7.4'
+      - run: bundle install
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
